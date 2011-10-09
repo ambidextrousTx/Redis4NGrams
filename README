@@ -1,0 +1,17 @@
+Showing how to use Redis and python-redis for uploading and fast access of Google Web1T n-gram data.
+
+Redis is known for blazing speed. Use the script to upload your n-gram data to the Redis store (small changes here and there should make it all work for you). Use the following pipeline:
+
+[1] Install Redis
+[2] Run the Redis server
+[3] Install python-redis
+[4] Type in the Python script, uncomment the 1gms part, and run it (it might run for a while, takes 20 minutes on an 8GB Core i5 machine to upload 13 million 1-grams) 
+[5] Start Python REPL
+[6] Use the following to query n-grams in constant time:
+
+> import redis
+> rs = redis.Redis('localhost') # Or wherever your server is running
+> rs.zcard('en:1gms') # Get the cardinality, I'm using ordered sets here
+> rs.zscore('en:1gms', 'hello') # Get the n-gram count for hello
+
+Use 'en:2gms', 'en:3gms' etc for the other n-grams
